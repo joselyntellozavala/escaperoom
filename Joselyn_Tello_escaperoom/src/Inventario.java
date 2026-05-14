@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Inventario {
@@ -26,11 +27,9 @@ public class Inventario {
         }
     }
 
-
     public Item buscarItem(String nombre) {
         return itemsPorNombre.getOrDefault(nombre, null);
     }
-
 
     public void mostrarInventario() {
         System.out.println("--- INVENTARIO ---");
@@ -42,12 +41,32 @@ public class Inventario {
         }
     }
 
-
     public void mostrarPistas() {
         System.out.println("--- PISTAS EN INVENTARIO ---");
         items.stream()
                 .filter(item -> item.getAccion() == AccionItem.LEER_PISTA)
-                .forEach(item -> System.out.println("📜 " + item.getNombre() + ": " + item.getDescripcion()));
+                .forEach(item -> System.out.println("- " + item.getNombre() + ": " + item.getDescripcion()));
+    }
+
+    // Stream con collect: devuelve lista solo de items que son pistas
+    public List<Item> obtenerPistas() {
+        return items.stream()
+                .filter(item -> item.getAccion() == AccionItem.LEER_PISTA)
+                .collect(Collectors.toList());
+    }
+
+    // Stream con collect: devuelve los nombres de todos los items como lista
+    public List<String> obtenerNombresItems() {
+        return items.stream()
+                .map(Item::getNombre)
+                .collect(Collectors.toList());
+    }
+
+    // Stream con reduce: cuenta cuántos items NO son de tipo NADA
+    public long contarItemsUtiles() {
+        return items.stream()
+                .filter(item -> item.getAccion() != AccionItem.NADA)
+                .count();
     }
 
     public boolean estaVacio() {
