@@ -1,12 +1,18 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class Jugador {
+
     private String nombre;
     private int energiaEnLaFuerza;
     private Inventario inventario;
     private Sala habitacionActual;
     private Stack<Sala> historialSalas;
+
+    // HashSet para registrar salas únicas visitadas (sin duplicados)
+    private HashSet<String> salasUnicasVisitadas;
 
     public Jugador(String nombre, int energia, Sala habitacionInicial) {
         this.nombre = nombre;
@@ -14,7 +20,9 @@ public class Jugador {
         this.habitacionActual = habitacionInicial;
         this.inventario = new Inventario(5);
         this.historialSalas = new Stack<>();
+        this.salasUnicasVisitadas = new HashSet<>();
         historialSalas.push(habitacionInicial);
+        salasUnicasVisitadas.add(habitacionInicial.getNombre());
     }
 
     public void consumirRecurso() throws FuerzaAgotadaException {
@@ -25,8 +33,9 @@ public class Jugador {
     }
 
     public void mostrarEstado() {
-        System.out.print("Fuerza: " + energiaEnLaFuerza + " | Salas visitadas: "
-                + historialSalas.size() + " | Inventario: ");
+        System.out.print("Fuerza: " + energiaEnLaFuerza
+                + " | Salas únicas visitadas: " + salasUnicasVisitadas.size()
+                + " | Inventario: ");
         if (inventario.estaVacio()) {
             System.out.println("vacío");
         } else {
@@ -38,7 +47,9 @@ public class Jugador {
         ArrayList<Sala> salasDisponibles = habitacionActual.getSalasConectadas();
         if (indiceVecina >= 0 && indiceVecina < salasDisponibles.size()) {
             this.habitacionActual = salasDisponibles.get(indiceVecina);
-            historialSalas.push(habitacionActual); // ← cada movimiento se apila
+            historialSalas.push(habitacionActual);
+            // El HashSet ignora automáticamente si la sala ya fue visitada
+            salasUnicasVisitadas.add(habitacionActual.getNombre());
             System.out.println("Te has movido a: " + habitacionActual.getNombre());
         } else {
             System.out.println("Esa ruta no existe");
@@ -49,6 +60,15 @@ public class Jugador {
         System.out.println("--- Tu camino hasta aquí ---");
         historialSalas.stream()
                 .forEach(sala -> System.out.println("  → " + sala.getNombre()));
+    }
+
+    // Stream con collect: devuelve lista de nombres de salas únicas visitadas
+    public void mostrarSalasUnicas() {
+        System.out.println("--- Salas exploradas ---");
+        String salas = salasUnicasVisitadas.stream()
+                .sorted()
+                .collect(Collectors.joining(", "));
+        System.out.println(salas);
     }
 
     public void mostrarVecinas() {
@@ -87,10 +107,16 @@ public class Jugador {
     public Sala getHabitacionActual() {
         return habitacionActual;
     }
+
     public String getNombre() {
         return nombre;
     }
+
     public int getEnergiaEnLaFuerza() {
         return energiaEnLaFuerza;
+    }
+
+    public HashSet<String> getSalasUnicasVisitadas() {
+        return salasUnicasVisitadas;
     }
 }
