@@ -4,8 +4,11 @@ public class MainJuego {
 
     public static void main(String[] args) {
 
-        // Historial de intentos anteriores al arrancar
+        // Muestro el historial de intentos anteriores al arrancar
         LectorPartida.mostrarHistorial();
+
+        // Muestro el último jugador serializado si existe
+        DeserializadorPartida.mostrarUltimoJugador();
 
         try (Scanner entrada = new Scanner(System.in)) {
 
@@ -114,8 +117,11 @@ public class MainJuego {
                 }
             }
 
-            // Resultado de la partida al terminar
+            // Guardo el resultado de la partida al terminar
             EscritorPartida.guardar(padawan, gano);
+
+            // Serializo Jugador en fichero binario
+            SerializadorPartida.guardar(padawan);
         }
     }
 }
