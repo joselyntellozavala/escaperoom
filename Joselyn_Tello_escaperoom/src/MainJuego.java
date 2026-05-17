@@ -12,6 +12,22 @@ public class MainJuego {
 
         try (Scanner entrada = new Scanner(System.in)) {
 
+            // Pregunto el nombre del jugador
+            System.out.print("\nIntroduce tu nombre, joven aprendiz: ");
+            String nombreJugador = entrada.nextLine().trim();
+
+            // Busco o creo el jugador en la base de datos
+            JugadorDAO dao = new JugadorDAO();
+            JugadorBD jugadorBD = dao.buscarPorNombre(nombreJugador);
+            boolean esNuevo = jugadorBD == null;
+
+            if (esNuevo) {
+                jugadorBD = new JugadorBD(nombreJugador);
+                dao.insertar(jugadorBD);
+            } else {
+                System.out.println("¡Bienvenido de nuevo, " + nombreJugador + "! Llevas " + jugadorBD.getIntentos() + " intento(s).");
+            }
+
             Sala pasillo = new Sala("Corredor de la Encrucijada", "Un corredor oscuro que se divide ante ti");
             Sala camaraOraculo = new Sala("Cámara del Oráculo", "Las antorchas se encienden solas al entrar");
             Sala salaDuelo = new Sala("Cámara de Entrenamiento", "El suelo está marcado por quemaduras de láser");
@@ -31,12 +47,12 @@ public class MainJuego {
             pasillo.agregarElemento(new ElementoSala("Caminos Grabados", new DesafioEncrucijada()));
             camaraOraculo.agregarElemento(new ElementoSala("Pedestal en Llamas", new DesafioOraculo()));
             salaDuelo.agregarElemento(new ElementoSala("Droide de Combate", new TresEnRaya()));
-            salaDuelo.agregarElemento(new ElementoSala("Holograma del Maestro", new PersonajeHistoria("Maestro", "Un droide es predecible.")));
+            salaDuelo.agregarElemento(new ElementoSala("Holograma del Maestro", new PersonajeHistoria("Maestro", "Un droide es predecible")));
             biblioteca.agregarElemento(new ElementoSala("Holocrón Roto"));
             biblioteca.agregarElemento(new ElementoSala("Mesa de Alquimia", new AdivinaPalabra()));
             camaraFinal.agregarElemento(new ElementoSala("Mecanismo de la Puerta", new DesafioArtefacto()));
 
-            Jugador padawan = new Jugador("Joven Aprendiz", 22, pasillo);
+            Jugador padawan = new Jugador(nombreJugador, 22, pasillo);
             boolean juegoTerminado = false;
             boolean gano = false;
 
@@ -54,7 +70,7 @@ public class MainJuego {
             System.out.println("1.  Puedes moverte libremente entre las salas conectadas");
             System.out.println("   Si un acertijo te bloquea, busca pistas en otras habitaciones y vuelve más tarde");
             System.out.println("2. La atmósfera del templo está corrupta. Tienes un total");
-            System.out.println("   de " + padawan.getEnergiaEnLaFuerza() + " puntos de Fuerza. Cada acción consume 1 punto.");
+            System.out.println("   de " + padawan.getEnergiaEnLaFuerza() + " puntos de Fuerza. Cada acción consume 1 punto");
             System.out.println("   Si tu contador llega a 0, quedarás atrapado para siempre.");
             System.out.println("3. Encuentra la Sala Final y activa el mecanismo");
             System.out.println("   correcto para abrir la puerta antes de que se agote tu energía");
@@ -115,6 +131,12 @@ public class MainJuego {
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("Error: Esa opción no existe en tu entorno");
                 }
+            }
+
+            // Actualizo los intentos solo si no es la primera vez que juega
+            if (!esNuevo) {
+                jugadorBD = dao.buscarPorNombre(nombreJugador);
+                dao.actualizarIntentos(jugadorBD);
             }
 
             // Guardo el resultado de la partida al terminar
