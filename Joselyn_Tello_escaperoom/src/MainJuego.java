@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainJuego {
@@ -9,6 +10,9 @@ public class MainJuego {
 
         // Muestro el último jugador serializado si existe
         DeserializadorPartida.mostrarUltimoJugador();
+
+        JugadorJPADAO jpaDAO = new JugadorJPADAO();
+        jpaDAO.mostrarTodos();
 
         try (Scanner entrada = new Scanner(System.in)) {
 
@@ -144,6 +148,13 @@ public class MainJuego {
 
             // Serializo Jugador en fichero binario
             SerializadorPartida.guardar(padawan);
+
+            JugadorJPA jugadorJPA = new JugadorJPA(
+                    padawan.getNombre(),
+                    padawan.getEnergiaEnLaFuerza(),
+                    new ArrayList<>(padawan.getSalasUnicasVisitadas())
+            );
+            jpaDAO.guardar(jugadorJPA);
         }
     }
 }
