@@ -155,15 +155,15 @@ public class MainJuego {
             // Serializo Jugador en fichero binario
             SerializadorPartida.guardar(padawan);
 
-            // Muestro ventana de ranking al terminar la partida
-            SwingUtilities.invokeLater(() -> new VentanaRanking());
-
             JugadorJPA jugadorJPA = new JugadorJPA(
                     padawan.getNombre(),
                     padawan.getEnergiaEnLaFuerza(),
                     new ArrayList<>(padawan.getSalasUnicasVisitadas())
             );
             jpaDAO.guardar(jugadorJPA);
+
+            // Muestro ventana de ranking al terminar la partida
+            SwingUtilities.invokeLater(() -> new VentanaRanking());
         }
     }
 }
