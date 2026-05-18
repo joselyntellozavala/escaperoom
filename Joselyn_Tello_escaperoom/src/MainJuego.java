@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -148,6 +149,9 @@ public class MainJuego {
 
             // Serializo Jugador en fichero binario
             SerializadorPartida.guardar(padawan);
+
+            // Muestro ventana de ranking al terminar la partida
+            SwingUtilities.invokeLater(() -> new VentanaRanking());
 
             JugadorJPA jugadorJPA = new JugadorJPA(
                     padawan.getNombre(),
