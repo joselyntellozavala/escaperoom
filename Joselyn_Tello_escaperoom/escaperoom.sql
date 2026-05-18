@@ -1,0 +1,10 @@
+CREATE DATABASE IF NOT EXISTS escaperoom;
+
+USE escaperoom;
+
+CREATE TABLE IF NOT EXISTS jugadores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    intentos INT DEFAULT 1,
+    ultima_fecha DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
