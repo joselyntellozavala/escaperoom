@@ -1,5 +1,4 @@
 public class PersonajeHistoria {
-    
     private String nombre;
     private String dialogo;
 

@@ -5,7 +5,7 @@ public class ElementoSala {
     private PersonajeHistoria personajeAsociado;
     private boolean yaCompletado;
 
-    public ElementoSala(String nombre) { 
+    public ElementoSala(String nombre) {
         this.nombre = nombre;
         this.yaCompletado = false;
     }
@@ -19,8 +19,8 @@ public class ElementoSala {
     public ElementoSala(String nombre, PersonajeHistoria personaje) {
         this.nombre = nombre;
         this.yaCompletado = false;
-        this.desafioAsociado = null;      
-        this.personajeAsociado = personaje; 
+        this.desafioAsociado = null;
+        this.personajeAsociado = personaje;
     }
 
     public void setDesafio(Desafio desafio) {
@@ -37,7 +37,7 @@ public class ElementoSala {
 
     public void interactuar() {
         if (yaCompletado) {
-            System.out.println("Este elemento ha revelado todos sus secretos"); 
+            System.out.println("Este elemento ha revelado todos sus secretos");
             return;
         }
 
