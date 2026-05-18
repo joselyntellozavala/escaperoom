@@ -1,3 +1,5 @@
+package persistencia;
+
 import java.time.LocalDateTime;
 
 public class JugadorBD {

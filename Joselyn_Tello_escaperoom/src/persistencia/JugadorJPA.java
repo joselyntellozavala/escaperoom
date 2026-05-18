@@ -1,3 +1,5 @@
+package persistencia;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -29,6 +31,6 @@ public class JugadorJPA {
 
     @Override
     public String toString() {
-        return "JugadorJPA{id=" + id + ", nombre='" + nombre + "', energia=" + energia + ", salasVisitadas=" + salasVisitadas + "}";
+        return "persistencia.JugadorJPA{id=" + id + ", nombre='" + nombre + "', energia=" + energia + ", salasVisitadas=" + salasVisitadas + "}";
     }
 }

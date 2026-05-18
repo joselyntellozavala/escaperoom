@@ -1,3 +1,8 @@
+import persistencia.JugadorBD;
+import persistencia.JugadorDAO;
+import persistencia.JugadorJPA;
+import persistencia.JugadorJPADAO;
+
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
