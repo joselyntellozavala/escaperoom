@@ -16,7 +16,7 @@ public class VentanaRanking extends JFrame {
         setLayout(new BorderLayout(10, 10));
         getContentPane().setBackground(Color.BLACK);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Título
         JPanel panelSuperior = new JPanel();
