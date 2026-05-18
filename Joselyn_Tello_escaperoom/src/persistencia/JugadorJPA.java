@@ -31,6 +31,6 @@ public class JugadorJPA {
 
     @Override
     public String toString() {
-        return "persistencia.JugadorJPA{id=" + id + ", nombre='" + nombre + "', energia=" + energia + ", salasVisitadas=" + salasVisitadas + "}";
+        return "JugadorJPA [id=" + id + ", nombre='" + nombre + "', energia=" + energia + ", salasVisitadas=" + salasVisitadas + "]";
     }
 }
